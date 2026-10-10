@@ -5,17 +5,18 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Job, JobStatus
 from app.schemas import JobCreate, JobOut
+from app.worker import process_job
 
 router = APIRouter(prefix="/jobs", tags=["jobs"])
 
 
 @router.post("", response_model=JobOut, status_code=status.HTTP_202_ACCEPTED)
 def create_job(body: JobCreate, db: Session = Depends(get_db)):
-    job = Job(job_type=body.job_type, payload=body.payload, status=JobStatus.PENDING)
+    job = Job(job_type=body.job_type, payload=body.payload, status=JobStatus.QUEUED)
     db.add(job)
-    db.commit()
+    db.commit()                     # commit FIRST so the worker can find the row
     db.refresh(job)
-    # Step 3: enqueue the job here, AFTER the commit
+    process_job.delay(job.id)       # then enqueue
     return job
 
 
