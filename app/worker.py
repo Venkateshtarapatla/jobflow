@@ -9,6 +9,7 @@ celery_app = Celery("jobflow", broker=settings.redis_url)
 celery_app.conf.update(
     task_acks_late=True,
     worker_prefetch_multiplier=1,
+    broker_transport_options={"visibility_timeout": 60},
 )
 
 
