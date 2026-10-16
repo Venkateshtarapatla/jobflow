@@ -14,9 +14,9 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 def create_job(body: JobCreate, db: Session = Depends(get_db)):
     job = Job(job_type=body.job_type, payload=body.payload, status=JobStatus.QUEUED)
     db.add(job)
-    db.commit()                     # commit FIRST so the worker can find the row
+    db.commit()  # commit FIRST so the worker can find the row
     db.refresh(job)
-    process_job.delay(job.id)       # then enqueue
+    process_job.delay(job.id)  # then enqueue
     return job
 
 

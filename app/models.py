@@ -17,7 +17,7 @@ class JobStatus(str, enum.Enum):
     RUNNING = "RUNNING"
     SUCCESS = "SUCCESS"
     RETRYING = "RETRYING"
-    DEAD = "DEAD"          # exhausted all retries -> dead-letter queue
+    DEAD = "DEAD"  # exhausted all retries -> dead-letter queue
 
 
 class Job(Base):

@@ -8,7 +8,7 @@ from app.routers import dead_letter, jobs
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    Base.metadata.create_all(engine)   # fine for now; switch to Alembic later
+    Base.metadata.create_all(engine)  # fine for now; switch to Alembic later
     yield
 
 
