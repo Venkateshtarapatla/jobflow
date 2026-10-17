@@ -1,0 +1,1 @@
+![CI](https://github.com/Venkateshtarapatla/jobflow/actions/workflows/ci.yml/badge.svg)
